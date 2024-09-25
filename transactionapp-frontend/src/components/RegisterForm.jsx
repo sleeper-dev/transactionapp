@@ -1,11 +1,66 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { BASE_API_URL } from "../utils/constants";
+
 function RegisterForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    console.log(formData.get("firstname"));
+
+    if (formData.get("password").length < 8) {
+      alert(`Password must consist of at least 8 characters.`);
+      return;
+    }
+
+    if (formData.get("password") !== formData.get("confirmPassword")) {
+      alert(`Passwords must match!`);
+      return;
+    }
+
+    const data = {
+      firstname: formData.get("firstname"),
+      lastname: formData.get("lastname"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${BASE_API_URL}/register`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        navigate("/login");
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message);
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+      alert(`Error: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <main className="flex h-screen items-center justify-center bg-slate-50">
       <div className="w-[34rem]">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Create your account
         </h2>
-        <form className="mt-10 flex flex-col space-y-6 rounded-xl bg-white p-10 shadow-md">
+        <form
+          className="mt-10 flex flex-col space-y-6 rounded-xl bg-white p-10 shadow-md"
+          onSubmit={handleSubmit}
+        >
           <div className="flex gap-5">
             <div className="flex w-full flex-col gap-3">
               <label
@@ -87,7 +142,8 @@ function RegisterForm() {
           </div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={isLoading}
           >
             Create an account
           </button>
