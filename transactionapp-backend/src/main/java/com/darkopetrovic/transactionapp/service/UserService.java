@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -22,11 +24,15 @@ public class UserService {
 
     @Transactional
     public void createUser(User user) throws UserAlreadyExistsException {
-        if(userRepository.findByEmail(user.getEmail()) != null) {
+        if(userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException("User with this email already exists!");
 
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

@@ -13,4 +13,14 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
         return ResponseEntity.status(409).body(errorResponse);
     }
+
+    @ExceptionHandler(UserNotRegisteredException.class)
+    public ResponseEntity<?> handleUserNotRegisteredException(UserNotRegisteredException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+        return ResponseEntity.status(401).body(errorResponse);
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleException(Exception ex) {
+        return ResponseEntity.status(500).body(new ErrorResponse(ex.getMessage()));
+    }
 }
