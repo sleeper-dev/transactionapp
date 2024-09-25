@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_API_URL } from "../utils/constants";
+import toast from "react-hot-toast";
 
 function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,9 +41,10 @@ function RegisterForm() {
 
       if (response.ok) {
         navigate("/login");
+        toast.success("Registration successful");
       } else {
         const errorData = await response.json();
-        alert(errorData.message);
+        toast.error(errorData.message);
       }
     } catch (error) {
       console.error("Error:", error.message);
