@@ -27,7 +27,7 @@ function LoginForm() {
 
       if (response.ok) {
         const responseData = await response.json();
-        const token = responseData.token;
+        const token = responseData.jwt;
 
         localStorage.setItem("jwtToken", token);
 
