@@ -1,13 +1,60 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { BASE_API_URL } from "../utils/constants";
+import toast from "react-hot-toast";
 
 function LoginForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const data = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${BASE_API_URL}/login`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        const token = responseData.token;
+
+        localStorage.setItem("jwtToken", token);
+
+        navigate("/");
+        toast.success("Login successful");
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message);
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+      alert(`Error: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <main className="flex h-screen items-center justify-center bg-slate-50">
       <div className="w-[30rem]">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign In to your account
         </h2>
-        <form className="mt-10 flex flex-col space-y-6 rounded-xl bg-white p-10 shadow-md">
+        <form
+          className="mt-10 flex flex-col space-y-6 rounded-xl bg-white p-10 shadow-md"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-col gap-3">
             <label
               htmlFor="email"
@@ -40,7 +87,8 @@ function LoginForm() {
           </div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={isLoading}
           >
             Sign In
           </button>
