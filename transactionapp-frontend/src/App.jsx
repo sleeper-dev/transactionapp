@@ -7,6 +7,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./components/AppLayout";
 import { AuthProvider } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
+import Send from "./pages/Send";
+import Transactions from "./pages/Transactions";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
             }
           >
             <Route index element={<Home />} />
+            <Route path="send" element={<Send />} />
+            <Route path="transactions" element={<Transactions />} />
           </Route>
         </Routes>
       </BrowserRouter>
