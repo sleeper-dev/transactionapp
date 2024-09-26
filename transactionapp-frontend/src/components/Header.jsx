@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import LogoutButton from "./LogoutButton";
 
 function Header() {
   return (
@@ -48,9 +49,9 @@ function Header() {
             </NavLink>
           </div>
           <div>
-            <button className="mt-4 inline-block rounded border border-white px-4 py-2 text-sm leading-none text-white hover:border-transparent hover:bg-white hover:text-green-700 lg:mt-0">
+            <LogoutButton className="mt-4 inline-block rounded border border-white px-4 py-2 text-sm leading-none text-white hover:border-transparent hover:bg-white hover:text-green-700 lg:mt-0">
               Log out
-            </button>
+            </LogoutButton>
           </div>
         </div>
       </nav>
