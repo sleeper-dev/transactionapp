@@ -1,51 +1,18 @@
-import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { BASE_API_URL } from "../utils/constants";
-import toast from "react-hot-toast";
-import AuthContext from "../context/AuthContext";
+import { Link } from "react-router-dom";
+import useLogin from "../lib/useLogin";
 
 function LoginForm() {
-  const { setIsAuthenticated } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { login, isLoading } = useLogin();
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
 
-    const data = {
-      email: formData.get("email"),
-      password: formData.get("password"),
-    };
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${BASE_API_URL}/login`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        const token = responseData.jwt;
-
-        localStorage.setItem("jwtToken", token);
-        setIsAuthenticated(true);
-
-        navigate("/");
-        toast.success("Login successful");
-      } else {
-        const errorData = await response.json();
-        toast.error(errorData.message);
-      }
-    } catch (error) {
-      console.error("Error:", error.message);
-      alert(`Error: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
+    login(email, password);
   }
 
   return (

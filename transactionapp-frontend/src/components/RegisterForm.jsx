@@ -1,26 +1,21 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BASE_API_URL } from "../utils/constants";
 import toast from "react-hot-toast";
+import useRegister from "../lib/useRegister";
 
 function RegisterForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { register, isLoading } = useRegister();
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
 
-    console.log(formData.get("firstname"));
-
     if (formData.get("password").length < 8) {
-      alert(`Password must consist of at least 8 characters.`);
+      toast.error(`Password must consist of at least 8 characters.`);
       return;
     }
 
     if (formData.get("password") !== formData.get("confirmPassword")) {
-      alert(`Passwords must match!`);
+      toast.error(`Passwords must match!`);
       return;
     }
 
@@ -31,27 +26,7 @@ function RegisterForm() {
       password: formData.get("password"),
     };
 
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${BASE_API_URL}/register`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (response.ok) {
-        navigate("/login");
-        toast.success("Registration successful");
-      } else {
-        const errorData = await response.json();
-        toast.error(errorData.message);
-      }
-    } catch (error) {
-      console.error("Error:", error.message);
-      alert(`Error: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
+    register(data);
   }
   return (
     <main className="flex h-screen items-center justify-center bg-slate-50">
