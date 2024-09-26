@@ -6,7 +6,7 @@ function AppLayout() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-grow bg-slate-50 px-[16rem] py-5">
+      <main className="flex flex-grow flex-col bg-slate-50 px-[16rem] py-5">
         <Outlet />
       </main>
       <Footer />

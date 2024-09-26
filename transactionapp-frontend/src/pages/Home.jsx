@@ -1,8 +1,10 @@
+import MainPage from "../components/MainPage";
+
 function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <>
+      <MainPage />
+    </>
   );
 }
 
