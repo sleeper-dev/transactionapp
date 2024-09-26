@@ -35,6 +35,9 @@ public class User implements UserDetails {
     private String password;
 
     @Column(nullable = false)
+    private double balance = 0.00;
+
+    @Column(nullable = false)
     private boolean enabled = true;
 
     @CreationTimestamp
@@ -50,12 +53,13 @@ public class User implements UserDetails {
 
     }
 
-    public User(Long id, String firstname, String lastname, String email, String password, boolean enabled, LocalDateTime dateCreated, List<Transaction> sentTransactions, List<Transaction> receivedTransactions) {
+    public User(Long id, String firstname, String lastname, String email, String password, double balance, boolean enabled, LocalDateTime dateCreated, List<Transaction> sentTransactions, List<Transaction> receivedTransactions) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.balance = balance;
         this.enabled = enabled;
         this.dateCreated = dateCreated;
         this.sentTransactions = sentTransactions;
@@ -100,6 +104,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public void setEnabled(boolean enabled) {
