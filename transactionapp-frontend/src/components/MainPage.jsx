@@ -5,7 +5,6 @@ import TransactionTableSmall from "./TransactionTableSmall";
 
 function MainPage() {
   const [user, setUser] = useState({});
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ function MainPage() {
           throw new Error("Failed to fetch user data");
         }
       } catch (err) {
-        setError(err.message);
+        console.log(err.message);
       } finally {
         setIsLoading(false);
       }
@@ -37,11 +36,7 @@ function MainPage() {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex w-full flex-grow items-center justify-center">
-        <Spinner />
-      </div>
-    );
+    return <Spinner />;
   }
 
   const { firstName, lastName, email, balance, receivedTransactions } = user;

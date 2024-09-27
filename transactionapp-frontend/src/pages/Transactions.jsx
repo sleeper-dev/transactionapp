@@ -1,8 +1,10 @@
+import TransactionsPage from "../components/TransactionsPage";
+
 function Transactions() {
   return (
-    <div>
-      <h1>TRANSACTIONS</h1>
-    </div>
+    <>
+      <TransactionsPage />
+    </>
   );
 }
 
