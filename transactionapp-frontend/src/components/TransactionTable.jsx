@@ -10,6 +10,8 @@ function TransactionTable({ data, page, totalCount, handlePageChange }) {
 
   const totalPages = Math.ceil(totalCount / size);
 
+  const isEmpty = !data.length > 0;
+
   return (
     <div className="w-full overflow-hidden rounded-2xl border-[1px] border-gray-200 text-zinc-700">
       <div>
@@ -20,43 +22,55 @@ function TransactionTable({ data, page, totalCount, handlePageChange }) {
             <span>Date</span>
             <span></span>
           </div>
-          {data.map((transaction, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4"
-            >
-              <span className="flex flex-col truncate">
-                <span className="font-bold">{`${transaction.counterpartFirstname} ${transaction.counterpartLastname}`}</span>
-                <span className="text-sm">{transaction.counterpartEmail}</span>
-              </span>
-              <span
-                className={`font-semibold ${transaction.sender ? "text-red-600" : "text-green-700"}`}
+          {!isEmpty ? (
+            data.map((transaction, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4"
               >
-                {transaction.sender ? "-" : "+"}
-                {transaction.amount.toFixed(2)}
-              </span>
-              <span className="font-medium">
-                {format(transaction.dateCreated, "dd.MM.yyyy")}
-              </span>
-              <span className="text-right">
-                <Link
-                  to={`/transaction/1`}
-                  target="_blank"
-                  className="text-green-700 hover:underline"
+                <span className="flex flex-col truncate">
+                  <span className="font-bold">{`${transaction.counterpartFirstname} ${transaction.counterpartLastname}`}</span>
+                  <span className="text-sm">
+                    {transaction.counterpartEmail}
+                  </span>
+                </span>
+                <span
+                  className={`font-semibold ${transaction.sender ? "text-red-600" : "text-green-700"}`}
                 >
-                  View Details
-                </Link>
-              </span>
+                  {transaction.sender ? "-" : "+"}
+                  {transaction.amount.toFixed(2)}
+                </span>
+                <span className="font-medium">
+                  {format(transaction.dateCreated, "dd.MM.yyyy")}
+                </span>
+                <span className="text-right">
+                  <Link
+                    to={`/transaction/1`}
+                    target="_blank"
+                    className="text-green-700 hover:underline"
+                  >
+                    View Details
+                  </Link>
+                </span>
+              </div>
+            ))
+          ) : (
+            <div className="items-center gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4">
+              <p className="text-xl">No transactions yet!</p>
             </div>
-          ))}
+          )}
         </div>
 
         <div className="flex items-center justify-between bg-slate-200 px-5 py-4">
-          <span className="font-medium">
-            Showing <span className="font-bold">{startItem}</span> to{" "}
-            <span className="font-bold">{endItem}</span> of{" "}
-            <span className="font-bold">{totalCount}</span> results
-          </span>
+          {!isEmpty ? (
+            <span className="font-medium">
+              Showing <span className="font-bold">{startItem}</span> to{" "}
+              <span className="font-bold">{endItem}</span> of{" "}
+              <span className="font-bold">{totalCount}</span> results
+            </span>
+          ) : (
+            <span></span>
+          )}
           <div>
             <button
               onClick={() => handlePageChange(Math.max(page - 1, 1))}

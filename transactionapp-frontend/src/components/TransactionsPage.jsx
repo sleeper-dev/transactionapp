@@ -14,12 +14,14 @@ function TransactionsPage() {
   const page = parseInt(searchParams.get("page")) || 1;
   const size = TABLE_SIZE;
 
+  const sortBy = searchParams.get("sortBy") || "dateCreated-desc";
+
   const fetchTransactions = async () => {
     const token = localStorage.getItem("jwtToken");
     setLoading(true);
     try {
       const response = await fetch(
-        `${BASE_API_URL}/transactions?page=${page - 1}&size=${size}`,
+        `${BASE_API_URL}/transactions?page=${page - 1}&size=${size}&sortBy=${sortBy}`,
         {
           method: "GET",
           headers: {
@@ -43,10 +45,15 @@ function TransactionsPage() {
 
   useEffect(() => {
     fetchTransactions(page);
-  }, [page]);
+  }, [page, sortBy]);
 
   const handlePageChange = (newPage) => {
-    setSearchParams({ page: newPage });
+    setSearchParams({ page: newPage, sortBy });
+  };
+
+  const handleSortChange = (event) => {
+    const newSortBy = event.target.value;
+    setSearchParams({ page: 1, sortBy: newSortBy });
   };
 
   if (loading) {
@@ -57,6 +64,20 @@ function TransactionsPage() {
     <div>
       <div className="mb-5 mt-5 flex w-full justify-between">
         <h1 className="text-2xl font-bold text-zinc-800">Your transactions</h1>
+        {transactions.length > 0 && (
+          <select
+            onChange={handleSortChange}
+            value={sortBy}
+            className="rounded-md border p-2 py-2 text-zinc-800 shadow-sm outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+          >
+            <option value="dateCreated-desc">
+              Sort by date (Newest First)
+            </option>
+            <option value="dateCreated-asc">Sort by date (Oldest First)</option>
+            <option value="amount-desc">Sort by amount (Highest First)</option>
+            <option value="amount-asc">Sort by amount (Lowest First)</option>
+          </select>
+        )}
       </div>
       <TransactionTable
         data={transactions}
