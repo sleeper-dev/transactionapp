@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 public class TransactionDto {
     private Long id;
-    private final BigDecimal amount;
-    private final LocalDateTime dateCreated;
-    private final String counterpartEmail;
+    private BigDecimal amount;
+    private LocalDateTime dateCreated;
+    private String counterpartEmail;
     private String description;
     private String counterpartFirstname;
     private String counterpartLastname;
@@ -47,6 +47,10 @@ public class TransactionDto {
         this.amount = amount;
         this.dateCreated = dateCreated;
         this.counterpartEmail = counterpartEmail;
+    }
+
+    public TransactionDto(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

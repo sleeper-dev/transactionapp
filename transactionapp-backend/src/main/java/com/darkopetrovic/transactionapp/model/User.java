@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +36,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(nullable = false)
-    private double balance = 0.00;
+    private BigDecimal balance = BigDecimal.ZERO;
 
     @Column(nullable = false)
     private boolean enabled = true;
@@ -53,7 +54,7 @@ public class User implements UserDetails {
 
     }
 
-    public User(Long id, String firstname, String lastname, String email, String password, double balance, boolean enabled, LocalDateTime dateCreated, List<Transaction> sentTransactions, List<Transaction> receivedTransactions) {
+    public User(Long id, String firstname, String lastname, String email, String password, BigDecimal balance, boolean enabled, LocalDateTime dateCreated, List<Transaction> sentTransactions, List<Transaction> receivedTransactions) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -106,11 +107,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

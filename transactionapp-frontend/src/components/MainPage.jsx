@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BASE_API_URL } from "../utils/constants";
 import Spinner from "./Spinner";
-import TransactionTableSmall from "./TransactionTableSmall";
+import TransactionTableSmall from "./transactions/TransactionTableSmall";
 
 function MainPage() {
   const [user, setUser] = useState({});
@@ -39,13 +39,13 @@ function MainPage() {
     return <Spinner />;
   }
 
-  const { firstName, lastName, email, balance, receivedTransactions } = user;
+  const { firstname, lastname, email, balance, receivedTransactions } = user;
 
   return (
     <>
       <div className="mb-5 flex w-full justify-between rounded-2xl bg-slate-200 p-5 shadow-md">
         <h1 className="text-xl font-bold text-zinc-800">
-          Welcome, {firstName}
+          Welcome, {firstname}
         </h1>
       </div>
       <div className="flex flex-grow flex-row gap-5">

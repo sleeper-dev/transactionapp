@@ -1,12 +1,13 @@
 package com.darkopetrovic.transactionapp.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class UserDto {
     private String firstname;
     private String lastname;
     private String email;
-    private double balance;
+    private BigDecimal balance;
 
     private List<TransactionDto> receivedTransactions;
 
@@ -16,7 +17,7 @@ public class UserDto {
         this.email = email;
     }
 
-    public UserDto(String firstname, String lastname, String email, double balance, List<TransactionDto> receivedTransactions) {
+    public UserDto(String firstname, String lastname, String email, BigDecimal balance, List<TransactionDto> receivedTransactions) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -36,7 +37,7 @@ public class UserDto {
         return email;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { BASE_API_URL, TABLE_SIZE } from "../utils/constants";
-import Spinner from "./Spinner";
+import { BASE_API_URL, TABLE_SIZE } from "../../utils/constants";
+import Spinner from "../Spinner";
 import TransactionTable from "./TransactionTable";
 import TransactionFilter from "./TransactionFilter";
 

@@ -14,6 +14,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404).body(errorResponse);
     }
 
+    @ExceptionHandler(InsufficientFundsException.class)
+    public ResponseEntity<?> handleInsufficientFundsException(InsufficientFundsException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+        return ResponseEntity.status(409).body(errorResponse);
+    }
+
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());

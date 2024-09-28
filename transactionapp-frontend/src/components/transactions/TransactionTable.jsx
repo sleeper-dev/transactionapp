@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
-import { TABLE_SIZE } from "../utils/constants";
+import { TABLE_SIZE } from "../../utils/constants";
 
 function TransactionTable({ data, page, totalCount, handlePageChange }) {
   const size = TABLE_SIZE;
@@ -38,7 +38,7 @@ function TransactionTable({ data, page, totalCount, handlePageChange }) {
                   className={`font-semibold ${transaction.sender ? "text-red-600" : "text-green-700"}`}
                 >
                   {transaction.sender ? "-" : "+"}
-                  {transaction.amount.toFixed(2)}
+                  {transaction.amount.toFixed(2)} €
                 </span>
                 <span className="font-medium">
                   {format(transaction.dateCreated, "dd.MM.yyyy")}

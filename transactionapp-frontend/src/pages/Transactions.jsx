@@ -1,4 +1,4 @@
-import TransactionsPage from "../components/TransactionsPage";
+import TransactionsPage from "../components/transactions/TransactionsPage";
 
 function Transactions() {
   return (
