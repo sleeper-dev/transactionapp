@@ -6,7 +6,6 @@ public class UserTransactionsDto {
     private String firstName;
     private String lastName;
     private String email;
-
     private double balance;
 
     private List<TransactionDto> receivedTransactions;
@@ -15,6 +14,7 @@ public class UserTransactionsDto {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.balance = balance;
         this.receivedTransactions = receivedTransactions;
     }
 
