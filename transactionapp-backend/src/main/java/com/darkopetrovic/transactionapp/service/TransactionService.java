@@ -1,6 +1,7 @@
 package com.darkopetrovic.transactionapp.service;
 
-import com.darkopetrovic.transactionapp.dto.TransactionsWithSender;
+import com.darkopetrovic.transactionapp.dto.TransactionDto;
+import com.darkopetrovic.transactionapp.exception.NotFoundException;
 import com.darkopetrovic.transactionapp.model.Transaction;
 import com.darkopetrovic.transactionapp.model.User;
 import com.darkopetrovic.transactionapp.repository.TransactionRepository;
@@ -27,7 +28,7 @@ public class TransactionService {
         this.userRepository = userRepository;
     }
 
-    public Page<TransactionsWithSender> getUserTransactions(Pageable pageable, String sortBy) {
+    public Page<TransactionDto> getUserTransactions(Pageable pageable, String sortBy) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userRepository.findByEmail(email)
@@ -44,7 +45,7 @@ public class TransactionService {
         return transactions.map(transaction -> {
             boolean isSender = transaction.getSender().equals(user);
             User partner = isSender ? transaction.getReceiver() : transaction.getSender();
-            return new TransactionsWithSender(
+            return new TransactionDto(
                     transaction.getId(),
                     transaction.getAmount(),
                     transaction.getDateCreated(),
@@ -53,5 +54,33 @@ public class TransactionService {
                     partner.getLastname(),
                     isSender);
         });
+    }
+
+    public TransactionDto getTransactionById(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Transaction not found"));
+
+        if (!transaction.getSender().equals(user) && !transaction.getReceiver().equals(user)) {
+            throw new NotFoundException("Transaction not found");
+        }
+
+        boolean isSender = transaction.getSender().equals(user);
+        User partner = isSender ? transaction.getReceiver() : transaction.getSender();
+
+        return new TransactionDto(
+                transaction.getId(),
+                transaction.getAmount(),
+                transaction.getDateCreated(),
+                transaction.getDescription(),
+                partner.getEmail(),
+                partner.getFirstname(),
+                partner.getLastname(),
+                isSender
+        );
     }
 }

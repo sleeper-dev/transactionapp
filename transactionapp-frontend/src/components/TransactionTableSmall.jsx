@@ -6,13 +6,11 @@ function TransactionTableSmall({ data }) {
       {data.map((item, index) => (
         <div
           key={index}
-          className="flex flex-row justify-between border-b border-slate-400 border-opacity-50 bg-slate-300 bg-opacity-50 px-5 py-4 last:border-none"
+          className="grid grid-cols-[3fr_1.5fr_1fr] justify-between border-b border-slate-400 border-opacity-50 bg-slate-50 bg-opacity-50 px-5 py-4 last:border-none"
         >
-          <span className="w-1/3">{item.senderEmail}</span>
-          <span className="w-1/6">{item.amount.toFixed(2)} €</span>
-          <span className="w-1/6">
-            {format(item.dateCreated, "dd.MM.yyyy")}
-          </span>
+          <span className="truncate">{item.counterpartEmail}</span>
+          <span>{item.amount.toFixed(2)} €</span>
+          <span>{format(item.dateCreated, "dd.MM.yyyy")}</span>
         </div>
       ))}
     </div>

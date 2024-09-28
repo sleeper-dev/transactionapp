@@ -37,7 +37,10 @@ function App() {
             <Route index element={<Home />} />
             <Route path="send" element={<Send />} />
             <Route path="transactions" element={<Transactions />} />
-            <Route path="transactions/:id" element={<TransactionSingle />} />
+            <Route
+              path="transactions/:transactionId"
+              element={<TransactionSingle />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

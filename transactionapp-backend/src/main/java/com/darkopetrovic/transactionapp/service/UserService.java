@@ -1,7 +1,7 @@
 package com.darkopetrovic.transactionapp.service;
 
 import com.darkopetrovic.transactionapp.dto.TransactionDto;
-import com.darkopetrovic.transactionapp.dto.UserTransactionsDto;
+import com.darkopetrovic.transactionapp.dto.UserDto;
 import com.darkopetrovic.transactionapp.exception.UserAlreadyExistsException;
 import com.darkopetrovic.transactionapp.model.Transaction;
 import com.darkopetrovic.transactionapp.model.User;
@@ -49,7 +49,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public UserTransactionsDto getUserWithTransactions() throws Exception {
+    public UserDto getUserWithTransactions() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new Exception("User not found"));
@@ -66,6 +66,6 @@ public class UserService {
 
         LOGGER.info(String.valueOf(receivedTransactions.size()));
 
-        return new UserTransactionsDto(user.getFirstname(), user.getLastname(), user.getEmail(), user.getBalance(), transactionDtos);
+        return new UserDto(user.getFirstname(), user.getLastname(), user.getEmail(), user.getBalance(), transactionDtos);
     }
 }
