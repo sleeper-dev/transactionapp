@@ -3,11 +3,12 @@ import { useSearchParams } from "react-router-dom";
 import { BASE_API_URL, TABLE_SIZE } from "../utils/constants";
 import Spinner from "./Spinner";
 import TransactionTable from "./TransactionTable";
+import TransactionFilter from "./TransactionFilter";
 
 function TransactionsPage() {
   const [transactions, setTransactions] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
-
+  const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -56,31 +57,53 @@ function TransactionsPage() {
     setSearchParams({ page: 1, sortBy: newSortBy });
   };
 
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    if (filter === "all") return true;
+    if (filter === "sent") return transaction.sender;
+    if (filter === "received") return !transaction.sender;
+    return true;
+  });
+
   if (loading) {
     return <Spinner />;
   }
 
   return (
     <div>
-      <div className="mb-5 mt-5 flex w-full justify-between">
+      <div className="mb-5 mt-5 flex w-full items-center justify-between">
         <h1 className="text-2xl font-bold text-zinc-800">Your transactions</h1>
+
         {transactions.length > 0 && (
-          <select
-            onChange={handleSortChange}
-            value={sortBy}
-            className="rounded-md border p-2 py-2 text-zinc-800 shadow-sm outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-          >
-            <option value="dateCreated-desc">
-              Sort by date (Newest First)
-            </option>
-            <option value="dateCreated-asc">Sort by date (Oldest First)</option>
-            <option value="amount-desc">Sort by amount (Highest First)</option>
-            <option value="amount-asc">Sort by amount (Lowest First)</option>
-          </select>
+          <div className="flex gap-2">
+            <TransactionFilter
+              filter={filter}
+              onFilterChange={handleFilterChange}
+            />
+            <select
+              onChange={handleSortChange}
+              value={sortBy}
+              className="rounded-md border p-2 py-2 text-zinc-800 shadow-sm outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+            >
+              <option value="dateCreated-desc">
+                Sort by date (Newest First)
+              </option>
+              <option value="dateCreated-asc">
+                Sort by date (Oldest First)
+              </option>
+              <option value="amount-desc">
+                Sort by amount (Highest First)
+              </option>
+              <option value="amount-asc">Sort by amount (Lowest First)</option>
+            </select>
+          </div>
         )}
       </div>
       <TransactionTable
-        data={transactions}
+        data={filteredTransactions}
         totalCount={totalCount}
         page={page}
         handlePageChange={handlePageChange}
