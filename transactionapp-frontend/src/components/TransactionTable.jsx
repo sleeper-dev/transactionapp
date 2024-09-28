@@ -45,8 +45,7 @@ function TransactionTable({ data, page, totalCount, handlePageChange }) {
                 </span>
                 <span className="text-right">
                   <Link
-                    to={`/transaction/1`}
-                    target="_blank"
+                    to={`/transactions/${transaction.id}`}
                     className="text-green-700 hover:underline"
                   >
                     View Details

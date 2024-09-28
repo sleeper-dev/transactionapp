@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
 import Send from "./pages/Send";
 import Transactions from "./pages/Transactions";
+import TransactionSingle from "./pages/TransactionSingle";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="send" element={<Send />} />
             <Route path="transactions" element={<Transactions />} />
+            <Route path="transactions/:id" element={<TransactionSingle />} />
           </Route>
         </Routes>
       </BrowserRouter>
