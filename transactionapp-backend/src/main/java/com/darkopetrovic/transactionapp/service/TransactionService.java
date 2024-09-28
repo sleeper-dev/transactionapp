@@ -27,19 +27,19 @@ public class TransactionService {
         this.userRepository = userRepository;
     }
 
-    public Page<TransactionsWithSender> getUserTransactions(Pageable pageable) {
+    public Page<TransactionsWithSender> getUserTransactions(Pageable pageable, String sortBy) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        Pageable sortedByDateDesc = PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                Sort.by(Sort.Direction.DESC, "dateCreated")
-        );
+        String[] sortParams = sortBy.split("-");
+        String sortField = sortParams[0];
+        Sort.Direction sortDirection = sortParams.length > 1 && "asc".equalsIgnoreCase(sortParams[1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
 
-        Page<Transaction> transactions = transactionRepository.findByReceiverOrSender(user, user, sortedByDateDesc);
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortDirection, sortField));
+
+        Page<Transaction> transactions = transactionRepository.findByReceiverOrSender(user, user, sortedPageable);
 
         return transactions.map(transaction -> {
             boolean isSender = transaction.getSender().equals(user);
