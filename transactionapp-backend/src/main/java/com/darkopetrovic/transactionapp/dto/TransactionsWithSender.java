@@ -4,20 +4,26 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class TransactionsWithSender {
-    private BigDecimal amount;
-    private LocalDateTime dateCreated;
-    private String counterpartEmail;
-    private String counterpartFirstname;
-    private String counterpartLastname;
-    private boolean isSender;
+    private final Long id;
+    private final BigDecimal amount;
+    private final LocalDateTime dateCreated;
+    private final String counterpartEmail;
+    private final String counterpartFirstname;
+    private final String counterpartLastname;
+    private final boolean isSender;
 
-    public TransactionsWithSender(BigDecimal amount, LocalDateTime dateCreated, String counterpartEmail, String counterpartFirstname, String counterpartLastname, boolean isSender) {
+    public TransactionsWithSender(Long id, BigDecimal amount, LocalDateTime dateCreated, String counterpartEmail, String counterpartFirstname, String counterpartLastname, boolean isSender) {
+        this.id = id;
         this.amount = amount;
         this.dateCreated = dateCreated;
         this.counterpartEmail = counterpartEmail;
         this.counterpartFirstname = counterpartFirstname;
         this.counterpartLastname = counterpartLastname;
         this.isSender = isSender;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public BigDecimal getAmount() {

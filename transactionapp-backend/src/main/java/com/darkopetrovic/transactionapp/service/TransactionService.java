@@ -45,6 +45,7 @@ public class TransactionService {
             boolean isSender = transaction.getSender().equals(user);
             User partner = isSender ? transaction.getReceiver() : transaction.getSender();
             return new TransactionsWithSender(
+                    transaction.getId(),
                     transaction.getAmount(),
                     transaction.getDateCreated(),
                     partner.getEmail(),
