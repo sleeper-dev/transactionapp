@@ -39,8 +39,8 @@ public class SecurityConfig  {
                     rQ.requestMatchers("/register", "/login").permitAll();
                     rQ.anyRequest().authenticated();
                 });
-        http.sessionManagement(sessionAuthenticationStrategy ->
-                sessionAuthenticationStrategy.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authenticationProvider(authenticationProvider);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -50,7 +50,7 @@ public class SecurityConfig  {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

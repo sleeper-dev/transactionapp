@@ -62,10 +62,12 @@ function LoginForm() {
           >
             Sign In
           </button>
-          <div class="relative flex items-center py-5">
-            <div class="flex-grow border-t border-gray-400"></div>
-            <span class="mx-4 flex-shrink text-gray-400">Not a member?</span>
-            <div class="flex-grow border-t border-gray-400"></div>
+          <div className="relative flex items-center py-5">
+            <div className="flex-grow border-t border-gray-400"></div>
+            <span className="mx-4 flex-shrink text-gray-400">
+              Not a member?
+            </span>
+            <div className="flex-grow border-t border-gray-400"></div>
           </div>
           <Link
             to="/register"
