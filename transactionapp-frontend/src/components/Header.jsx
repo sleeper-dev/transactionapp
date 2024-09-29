@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
+import { IoPersonOutline } from "react-icons/io5";
 
 function Header() {
   return (
@@ -48,7 +49,15 @@ function Header() {
               Transactions
             </NavLink>
           </div>
-          <div>
+          <div className="flex flex-row items-center gap-4">
+            <NavLink
+              to="/account"
+              className={({ isActive }) =>
+                `text-2xl ${isActive ? "text-white" : "text-green-100 hover:text-white"}`
+              }
+            >
+              <IoPersonOutline />
+            </NavLink>
             <LogoutButton className="mt-4 inline-block rounded border border-white px-4 py-2 text-sm leading-none text-white hover:border-transparent hover:bg-white hover:text-green-700 lg:mt-0">
               Log out
             </LogoutButton>

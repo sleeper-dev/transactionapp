@@ -50,6 +50,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "receiver")
     private List<Transaction> receivedTransactions;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Address address;
+
     public User() {
 
     }
@@ -141,6 +144,14 @@ public class User implements UserDetails {
 
     public void setReceivedTransactions(List<Transaction> receivedTransactions) {
         this.receivedTransactions = receivedTransactions;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override

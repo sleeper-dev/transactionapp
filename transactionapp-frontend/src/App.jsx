@@ -10,6 +10,7 @@ import PublicRoute from "./components/PublicRoute";
 import Send from "./pages/Send";
 import Transactions from "./pages/Transactions";
 import TransactionSingle from "./pages/TransactionSingle";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="send" element={<Send />} />
             <Route path="transactions" element={<Transactions />} />
+            <Route path="account" element={<Account />} />
             <Route
               path="transactions/:transactionId"
               element={<TransactionSingle />}
