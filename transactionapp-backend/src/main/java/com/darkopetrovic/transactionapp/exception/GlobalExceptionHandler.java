@@ -14,6 +14,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404).body(errorResponse);
     }
 
+    @ExceptionHandler(RefundPeriodExpiredException.class)
+    public ResponseEntity<?> handleRefundPeriodExpiredException(RefundPeriodExpiredException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+        return ResponseEntity.status(400).body(errorResponse);
+    }
+
     @ExceptionHandler(InsufficientFundsException.class)
     public ResponseEntity<?> handleInsufficientFundsException(InsufficientFundsException ex) {
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());

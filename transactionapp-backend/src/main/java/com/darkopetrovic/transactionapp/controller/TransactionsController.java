@@ -43,4 +43,15 @@ public class TransactionsController {
 
         return ResponseEntity.ok(transactionDetails);
     }
+    @PostMapping("/{transactionId}/refund")
+    public ResponseEntity<?> refundTransaction(@PathVariable Long transactionId) {
+        try {
+            return ResponseEntity.ok(transactionService.refundTransaction(transactionId));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error refunding transaction: " + e.getMessage());
+        }
+    }
+
 }

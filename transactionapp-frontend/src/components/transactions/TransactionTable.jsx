@@ -16,9 +16,10 @@ function TransactionTable({ data, page, totalCount, handlePageChange }) {
     <div className="w-full overflow-hidden rounded-2xl border-[1px] border-gray-200 text-zinc-700">
       <div>
         <div className="flex flex-col">
-          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 border-b border-slate-200 bg-slate-200 px-5 py-4 font-bold">
+          <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-4 border-b border-slate-200 bg-slate-200 px-5 py-4 font-bold">
             <span>Name</span>
             <span>Amount</span>
+            <span>Status</span>
             <span>Date</span>
             <span></span>
           </div>
@@ -26,7 +27,7 @@ function TransactionTable({ data, page, totalCount, handlePageChange }) {
             data.map((transaction, index) => (
               <div
                 key={index}
-                className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4"
+                className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4"
               >
                 <span className="flex flex-col truncate">
                   <span className="font-bold">{`${transaction.counterpartFirstname} ${transaction.counterpartLastname}`}</span>
@@ -35,11 +36,18 @@ function TransactionTable({ data, page, totalCount, handlePageChange }) {
                   </span>
                 </span>
                 <span
-                  className={`font-semibold ${transaction.sender ? "text-red-600" : "text-green-700"}`}
+                  className={`font-semibold ${transaction.type === "REFUND" ? "text-amber-600" : transaction.sender ? "text-red-600" : "text-green-700"} ${transaction.refunded ? "line-through" : ""}`}
                 >
                   {transaction.sender ? "-" : "+"}
                   {transaction.amount.toFixed(2)} €
                 </span>
+                <div>
+                  <span
+                    className={`rounded-full px-2 py-1 text-xs font-medium uppercase ${transaction.refunded ? "bg-amber-200 text-amber-700" : "bg-green-200 text-green-700"}`}
+                  >
+                    {transaction.refunded ? "Refunded" : "Complete"}
+                  </span>
+                </div>
                 <span className="font-medium">
                   {format(transaction.dateCreated, "dd.MM.yyyy")}
                 </span>

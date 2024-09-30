@@ -1,5 +1,6 @@
 package com.darkopetrovic.transactionapp.model;
 
+import com.darkopetrovic.transactionapp.utils.TransactionType;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -22,6 +23,16 @@ public class Transaction {
 
     @CreationTimestamp
     private LocalDateTime dateCreated;
+
+    @Column(nullable = true)
+    private LocalDateTime dateUpdated;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
+
+    @Column(nullable = false)
+    private boolean refunded = false;
 
     @ManyToOne
     @JoinColumn(name = "sender_id", nullable = false)
@@ -61,6 +72,30 @@ public class Transaction {
 
     public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(LocalDateTime dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+    public boolean isRefunded() {
+        return refunded;
+    }
+
+    public void setRefunded(boolean refunded) {
+        this.refunded = refunded;
     }
 
     public User getSender() {

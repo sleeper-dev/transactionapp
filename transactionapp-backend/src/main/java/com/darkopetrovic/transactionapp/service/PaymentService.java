@@ -8,6 +8,7 @@ import com.darkopetrovic.transactionapp.model.Transaction;
 import com.darkopetrovic.transactionapp.model.User;
 import com.darkopetrovic.transactionapp.repository.TransactionRepository;
 import com.darkopetrovic.transactionapp.repository.UserRepository;
+import com.darkopetrovic.transactionapp.utils.TransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,6 +73,8 @@ public class PaymentService {
         transaction.setDescription(request.getDescription());
         transaction.setSender(sender);
         transaction.setReceiver(recipient);
+        transaction.setRefunded(false);
+        transaction.setType(TransactionType.PAYMENT);
         transaction.setDateCreated(LocalDateTime.now());
 
         Transaction savedTransaction = transactionRepository.save(transaction);
