@@ -39,7 +39,7 @@ public class TransactionService {
         this.notificationService = notificationService;
     }
 
-    public Page<TransactionDto> getUserTransactions(Pageable pageable, String sortBy) {
+    public Page<TransactionDto> getUserTransactions(Pageable pageable, String sortBy, String filter) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userRepository.findByEmail(email)
@@ -51,7 +51,15 @@ public class TransactionService {
 
         Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortDirection, sortField));
 
-        Page<Transaction> transactions = transactionRepository.findByReceiverOrSender(user, user, sortedPageable);
+        Page<Transaction> transactions;
+
+        if ("sent".equalsIgnoreCase(filter)) {
+            transactions = transactionRepository.findBySender(user, sortedPageable);
+        } else if ("received".equalsIgnoreCase(filter)) {
+            transactions = transactionRepository.findByReceiver(user, sortedPageable);
+        } else {
+            transactions = transactionRepository.findByReceiverOrSender(user, user, sortedPageable);
+        }
 
         return transactions.map(transaction -> {
             boolean isSender = transaction.getSender().equals(user);

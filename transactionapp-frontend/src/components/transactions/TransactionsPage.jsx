@@ -8,7 +8,6 @@ import TransactionFilter from "./TransactionFilter";
 function TransactionsPage() {
   const [transactions, setTransactions] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -16,13 +15,14 @@ function TransactionsPage() {
   const size = TABLE_SIZE;
 
   const sortBy = searchParams.get("sortBy") || "dateCreated-desc";
+  const filter = searchParams.get("filter") || "all";
 
   const fetchTransactions = async () => {
     const token = localStorage.getItem("jwtToken");
     setLoading(true);
     try {
       const response = await fetch(
-        `${BASE_API_URL}/transactions?page=${page - 1}&size=${size}&sortBy=${sortBy}`,
+        `${BASE_API_URL}/transactions?page=${page - 1}&size=${size}&sortBy=${sortBy}&filter=${filter}`,
         {
           method: "GET",
           headers: {
@@ -46,27 +46,20 @@ function TransactionsPage() {
 
   useEffect(() => {
     fetchTransactions(page);
-  }, [page, sortBy]);
+  }, [page, sortBy, filter]);
 
   const handlePageChange = (newPage) => {
-    setSearchParams({ page: newPage, sortBy });
+    setSearchParams({ page: newPage, sortBy, filter });
   };
 
   const handleSortChange = (event) => {
     const newSortBy = event.target.value;
-    setSearchParams({ page: 1, sortBy: newSortBy });
+    setSearchParams({ page: 1, sortBy: newSortBy, filter });
   };
 
   const handleFilterChange = (newFilter) => {
-    setFilter(newFilter);
+    setSearchParams({ page: 1, sortBy, filter: newFilter });
   };
-
-  const filteredTransactions = transactions.filter((transaction) => {
-    if (filter === "all") return true;
-    if (filter === "sent") return transaction.sender;
-    if (filter === "received") return !transaction.sender;
-    return true;
-  });
 
   if (loading) {
     return <Spinner />;
@@ -103,7 +96,7 @@ function TransactionsPage() {
         )}
       </div>
       <TransactionTable
-        data={filteredTransactions}
+        data={transactions}
         totalCount={totalCount}
         page={page}
         handlePageChange={handlePageChange}

@@ -13,4 +13,6 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findTop10ByReceiverOrderByDateCreatedDesc(User receiver);
     Page<Transaction> findByReceiverOrSender(User receiver, User sender, Pageable pageable);
+    Page<Transaction> findBySender(User sender, Pageable pageable);
+    Page<Transaction> findByReceiver(User receiver, Pageable pageable);
 }

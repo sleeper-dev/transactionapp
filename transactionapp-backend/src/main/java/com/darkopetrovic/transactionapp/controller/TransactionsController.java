@@ -25,11 +25,12 @@ public class TransactionsController {
     public ResponseEntity<?> getUserTransactions(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestParam String filter,
             @RequestParam String sortBy)
     {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<TransactionDto> transactions = transactionService.getUserTransactions(pageable, sortBy);
+            Page<TransactionDto> transactions = transactionService.getUserTransactions(pageable, sortBy, filter);
             return ResponseEntity.ok(transactions);
         } catch (Exception ex) {
             return ResponseEntity.status(500).body(new ErrorResponse(ex.getMessage()));
