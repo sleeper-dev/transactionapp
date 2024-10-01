@@ -41,6 +41,19 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuthStatus();
+
+    const handleStorageChange = () => {
+      const token = localStorage.getItem("jwtToken");
+      if (!token) {
+        setIsAuthenticated(false);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   return (
