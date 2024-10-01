@@ -1,8 +1,27 @@
+import { useState } from "react";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoNotifications, IoPersonOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { useNotifications } from "../lib/useNotifications";
+import { useOutsideClick } from "../lib/useOutsideClick";
 import LogoutButton from "./LogoutButton";
-import { IoPersonOutline } from "react-icons/io5";
 
 function Header() {
+  const { notifications, markAsRead, countUnreadNotifications, loading } =
+    useNotifications();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleCloseDropdown = () => {
+    setIsOpen(false);
+  };
+
+  const dropdownRef = useOutsideClick(handleCloseDropdown);
+
+  const toggleDropdown = () => {
+    markAsRead();
+    setIsOpen((prev) => !prev);
+  };
+
   return (
     <div>
       <nav className="flex flex-wrap items-center justify-between bg-green-700 px-[16rem] py-6">
@@ -49,7 +68,46 @@ function Header() {
               Transactions
             </NavLink>
           </div>
-          <div className="flex flex-row items-center gap-4">
+          <div className="flex flex-row items-center gap-4" ref={dropdownRef}>
+            <div className="relative inline-block">
+              <button
+                onClick={toggleDropdown}
+                className="relative flex items-center text-2xl text-green-100 hover:text-white"
+              >
+                {countUnreadNotifications() > 0 && (
+                  <span class="absolute -right-3 -top-3 rounded-full bg-red-500 p-1 text-xs font-medium text-red-100">
+                    {countUnreadNotifications()}
+                  </span>
+                )}
+
+                {isOpen ? <IoNotifications /> : <IoMdNotificationsOutline />}
+              </button>
+              {isOpen && (
+                <div className="absolute right-0 z-10 mt-2 max-h-[35rem] w-[25rem] overflow-hidden overflow-y-scroll rounded-xl border border-gray-300 bg-white shadow-lg [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:w-2">
+                  <div className="border-b border-gray-200 shadow-md">
+                    <h1 className="p-4 font-semibold text-zinc-800">
+                      Notifications
+                    </h1>
+                  </div>
+                  {notifications?.length > 0 ? (
+                    <ul className="">
+                      {notifications.map((notif) => (
+                        <li
+                          key={notif.id}
+                          className="cursor-pointer border-b border-gray-200 bg-gray-100 p-4 text-sm font-medium text-zinc-800"
+                        >
+                          {notif.message}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="bg-gray-100 p-5 text-center">
+                      <h1>No notifications</h1>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
             <NavLink
               to="/account"
               className={({ isActive }) =>

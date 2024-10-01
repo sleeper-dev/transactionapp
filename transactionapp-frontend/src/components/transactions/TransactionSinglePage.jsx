@@ -85,7 +85,7 @@ function TransactionSinglePage() {
           <span className="text text-zinc-600 underline">#{id}</span>
         </h1>
         <span
-          className={`rounded-full px-3 py-2 text-base font-medium uppercase ${type === "REFUND" ? "bg-amber-200 text-amber-600" : "bg-green-200 text-green-700"}`}
+          className={`rounded-full px-3 py-1 text-base font-medium uppercase ${type === "REFUND" ? "bg-amber-200 text-amber-600" : "bg-green-200 text-green-700"}`}
         >
           {type === "REFUND" ? "Refund" : "Payment"}
         </span>
@@ -110,7 +110,7 @@ function TransactionSinglePage() {
             {amount.toFixed(2)} €
           </span>
           {refunded && (
-            <span className="rounded-full bg-amber-200 px-3 py-2 text-base font-medium uppercase text-amber-600">
+            <span className="rounded-full bg-amber-200 px-3 py-1 text-base font-medium uppercase text-amber-600">
               Refunded
             </span>
           )}

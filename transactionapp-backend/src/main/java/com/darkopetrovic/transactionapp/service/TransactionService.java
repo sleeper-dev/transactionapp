@@ -28,13 +28,15 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     private static final int REFUND_PERIOD_DAYS = 15;
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
+    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     public Page<TransactionDto> getUserTransactions(Pageable pageable, String sortBy) {
@@ -147,6 +149,8 @@ public class TransactionService {
         refundTransaction.setDateCreated(LocalDateTime.now());
 
         Transaction refunded = transactionRepository.save(refundTransaction);
+
+        notificationService.createNotification("Your account has been debited by "+transaction.getAmount()+" due to a refund for transaction ID " + transaction.getId(), receiver);
 
         return new TransactionDto(refunded.getId());
     }

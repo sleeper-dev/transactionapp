@@ -22,11 +22,13 @@ public class PaymentService {
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Autowired
-    public PaymentService(TransactionRepository transactionRepository, UserRepository userRepository) {
+    public PaymentService(TransactionRepository transactionRepository, UserRepository userRepository, NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -84,6 +86,8 @@ public class PaymentService {
 
         userRepository.save(sender);
         userRepository.save(recipient);
+
+        notificationService.createNotification("You received " + transaction.getAmount() + " from " + transaction.getSender().getEmail(), transaction.getReceiver());
 
         return new TransactionDto(savedTransaction.getId());
     }
