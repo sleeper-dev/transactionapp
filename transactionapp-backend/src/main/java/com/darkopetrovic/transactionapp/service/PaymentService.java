@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 @Service
+@Transactional
 public class PaymentService {
 
     private final TransactionRepository transactionRepository;
@@ -31,7 +32,6 @@ public class PaymentService {
         this.notificationService = notificationService;
     }
 
-    @Transactional
     public SendPaymentRequest validateData(SendPaymentRequest request) {
         User recipient = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new NotFoundException("User not found"));
@@ -52,7 +52,6 @@ public class PaymentService {
         return request;
     }
 
-    @Transactional
     public TransactionDto sendPayment(SendPaymentRequest request) {
         User recipient = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new NotFoundException("User not found"));

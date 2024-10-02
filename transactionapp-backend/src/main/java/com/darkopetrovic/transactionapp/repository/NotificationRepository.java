@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     List<Notification> findByUser(User user, Sort sort);
-
     List<Notification> findByUserAndIsRead(User user, boolean isRead);
     Optional<Notification> findById(Long id);
+    void deleteByUser(User user);
 }

@@ -45,6 +45,23 @@ export const useNotifications = () => {
     setNotifications(data);
   };
 
+  const deleteAllNotifications = async () => {
+    const response = await fetch(`${BASE_API_URL}/notifications/deleteAll`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete notifications");
+    }
+
+    const data = await fetchNotifications();
+    setNotifications(data);
+  };
+
   useEffect(() => {
     const getNotifications = async () => {
       setLoading(true);
@@ -67,5 +84,11 @@ export const useNotifications = () => {
   const countUnreadNotifications = () =>
     notifications.filter((notification) => !notification.read).length;
 
-  return { notifications, markAsRead, countUnreadNotifications, loading };
+  return {
+    notifications,
+    markAsRead,
+    deleteAllNotifications,
+    countUnreadNotifications,
+    loading,
+  };
 };

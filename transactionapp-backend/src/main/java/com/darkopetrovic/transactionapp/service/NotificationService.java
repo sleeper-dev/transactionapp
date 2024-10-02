@@ -11,11 +11,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
@@ -59,5 +61,14 @@ public class NotificationService {
             notification.setRead(true);
         }
         notificationRepository.saveAll(notifications);
+    }
+
+    public void deleteAllUserNotifications() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        notificationRepository.deleteByUser(user);
     }
 }

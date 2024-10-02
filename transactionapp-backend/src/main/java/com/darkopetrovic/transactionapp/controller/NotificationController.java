@@ -30,4 +30,14 @@ public class NotificationController {
             return ResponseEntity.status(500).body(ex.getMessage());
         }
     }
+
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity<?> deleteAllNotifications() {
+        try {
+            notificationService.deleteAllUserNotifications();
+            return ResponseEntity.status(200).build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(500).body(ex.getMessage());
+        }
+    }
 }

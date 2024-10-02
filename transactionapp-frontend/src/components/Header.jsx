@@ -5,10 +5,16 @@ import { NavLink } from "react-router-dom";
 import { useNotifications } from "../lib/useNotifications";
 import { useOutsideClick } from "../lib/useOutsideClick";
 import LogoutButton from "./LogoutButton";
+import { format } from "date-fns";
 
 function Header() {
-  const { notifications, markAsRead, countUnreadNotifications, loading } =
-    useNotifications();
+  const {
+    notifications,
+    markAsRead,
+    deleteAllNotifications,
+    countUnreadNotifications,
+    loading,
+  } = useNotifications();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCloseDropdown = () => {
@@ -84,19 +90,31 @@ function Header() {
               </button>
               {isOpen && (
                 <div className="absolute right-0 z-10 mt-2 max-h-[35rem] w-[25rem] overflow-hidden overflow-y-scroll rounded-xl border border-gray-300 bg-white shadow-lg [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:w-2">
-                  <div className="border-b border-gray-200 shadow-md">
-                    <h1 className="p-4 font-semibold text-zinc-800">
+                  <div className="flex items-center justify-between border-b border-gray-200 p-4 shadow-md">
+                    <h1 className="font-semibold text-zinc-800">
                       Notifications
                     </h1>
+                    <button
+                      onClick={deleteAllNotifications}
+                      className="rounded-md bg-red-600 px-2 py-1 text-xs text-white"
+                    >
+                      Clear all
+                    </button>
                   </div>
                   {notifications?.length > 0 ? (
                     <ul className="">
                       {notifications.map((notif) => (
                         <li
                           key={notif.id}
-                          className="cursor-pointer border-b border-gray-200 bg-gray-100 p-4 text-sm font-medium text-zinc-800"
+                          className="flex flex-col border-b border-gray-300 bg-gray-100 p-4 text-sm font-medium text-zinc-800"
                         >
-                          {notif.message}
+                          <span>{notif.message}</span>
+                          <span className="mt-2 text-xs text-zinc-600">
+                            {format(
+                              new Date(notif.dateCreated),
+                              "dd.MM.yyyy, hh:mm aa",
+                            )}
+                          </span>
                         </li>
                       ))}
                     </ul>
