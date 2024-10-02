@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
-
     private final UserRepository userRepository;
 
     @Autowired
