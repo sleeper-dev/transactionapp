@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BASE_API_URL } from "../utils/constants";
 import Spinner from "./Spinner";
 import TransactionTableSmall from "./transactions/TransactionTableSmall";
+import CurrencyRateTable from "./CurrencyRateTable";
 
 function MainPage() {
   const [user, setUser] = useState({});
@@ -56,7 +57,7 @@ function MainPage() {
             </h2>
             <p className="text-4xl">{balance.toFixed(2)} €</p>
           </div>
-          <div className="flex-grow rounded-2xl bg-slate-200 py-5 shadow-md">
+          <div className="rounded-2xl bg-slate-200 py-5 shadow-md">
             <h2 className="mb-3 px-5 text-lg font-semibold text-zinc-800">
               Recent received transactions
             </h2>
@@ -70,11 +71,8 @@ function MainPage() {
             )}
           </div>
         </div>
-        <div className="w-2/5 flex-grow rounded-2xl bg-slate-200 p-5 shadow-md">
-          <h2 className="mb-3 text-lg font-semibold text-zinc-800">
-            Your cards
-          </h2>
-        </div>
+
+        <CurrencyRateTable />
       </div>
     </>
   );
