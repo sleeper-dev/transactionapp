@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BASE_API_URL } from "../utils/constants";
+import { BASE_API_URL, CURRENCIES } from "../utils/constants";
 import Spinner from "./Spinner";
 import TransactionTableSmall from "./transactions/TransactionTableSmall";
 import CurrencyRateTable from "./CurrencyRateTable";
@@ -7,6 +7,7 @@ import CurrencyRateTable from "./CurrencyRateTable";
 function MainPage() {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCurrency, setSelectedCurrency] = useState("EUR");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -71,8 +72,24 @@ function MainPage() {
             )}
           </div>
         </div>
-
-        <CurrencyRateTable />
+        <div className="max-h-[30rem] w-2/5 overflow-hidden rounded-2xl bg-slate-200 p-5 shadow-md">
+          <h2 className="mb-3 text-lg font-semibold text-zinc-800">
+            Exchange rates for{" "}
+            <select
+              className="bg-transparent p-0 font-semibold text-green-600 outline-green-600"
+              id="currency"
+              value={selectedCurrency}
+              onChange={(e) => setSelectedCurrency(e.target.value)}
+            >
+              {CURRENCIES.map((currency) => (
+                <option key={currency} value={currency}>
+                  {currency}
+                </option>
+              ))}
+            </select>
+          </h2>
+          <CurrencyRateTable selectedCurrency={selectedCurrency} />
+        </div>
       </div>
     </>
   );
