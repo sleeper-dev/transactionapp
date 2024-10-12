@@ -146,7 +146,10 @@ function TransactionSinglePage() {
                     Cancel
                   </button>
                   <button
-                    onClick={() => refundTransaction(transactionId)}
+                    onClick={() => {
+                      refundTransaction(transactionId);
+                      open(null);
+                    }}
                     className="rounded-md border border-green-700 bg-green-700 px-3 py-1 text-white shadow-md transition-all duration-200 hover:bg-white hover:text-green-800"
                   >
                     Confirm

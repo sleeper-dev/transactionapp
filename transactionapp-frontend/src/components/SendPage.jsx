@@ -135,13 +135,14 @@ function SendPage() {
               <button
                 className="rounded-md border border-green-700 bg-green-700 px-3 py-1 text-white shadow-md transition-all duration-200 hover:bg-white hover:text-green-800"
                 disabled={isLoading}
-                onClick={() =>
+                onClick={() => {
                   send(
                     paymentData.email,
                     paymentData.amount,
                     paymentData.description,
-                  )
-                }
+                  );
+                  open(null);
+                }}
               >
                 Confirm
               </button>
