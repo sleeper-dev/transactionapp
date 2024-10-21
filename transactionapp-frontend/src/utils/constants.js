@@ -1,4 +1,4 @@
-export const BASE_API_URL = "http://localhost:8080/api";
+export const BASE_API_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const TABLE_SIZE = 10;
 
