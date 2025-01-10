@@ -94,12 +94,14 @@ function Header() {
                     <h1 className="font-semibold text-zinc-800">
                       Notifications
                     </h1>
-                    <button
-                      onClick={deleteAllNotifications}
-                      className="rounded-md bg-red-600 px-2 py-1 text-xs text-white"
-                    >
-                      Clear all
-                    </button>
+                    {notifications?.length > 0 && (
+                      <button
+                        onClick={deleteAllNotifications}
+                        className="rounded-md bg-red-600 px-2 py-1 text-xs text-white"
+                      >
+                        Clear all
+                      </button>
+                    )}
                   </div>
                   {notifications?.length > 0 ? (
                     <ul className="">
