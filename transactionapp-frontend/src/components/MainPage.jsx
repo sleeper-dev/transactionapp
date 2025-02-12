@@ -50,8 +50,8 @@ function MainPage() {
           Welcome, {firstname}
         </h1>
       </div>
-      <div className="flex flex-grow flex-row gap-5">
-        <div className="flex w-3/5 flex-col gap-5">
+      <div className="flex flex-grow flex-col gap-5 lg:flex-row">
+        <div className="flex flex-col gap-5 lg:w-3/5">
           <div className="rounded-2xl bg-slate-200 p-5 py-5 shadow-md">
             <h2 className="mb-3 text-lg font-semibold text-zinc-800">
               Your balance
@@ -72,7 +72,7 @@ function MainPage() {
             )}
           </div>
         </div>
-        <div className="max-h-[30rem] w-2/5 overflow-hidden rounded-2xl bg-slate-200 p-5 shadow-md">
+        <div className="max-h-[30rem] overflow-hidden rounded-2xl bg-slate-200 p-5 shadow-md lg:w-2/5">
           <h2 className="mb-3 text-lg font-semibold text-zinc-800">
             Exchange rates for{" "}
             <select
