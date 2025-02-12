@@ -39,7 +39,7 @@ function AccountPage() {
     <div>
       <div className="mb-5 rounded-lg bg-white p-5 shadow-md">
         <h1 className="mb-5 text-lg font-semibold">Personal information</h1>
-        <div className="grid grid-cols-[2fr,2fr] grid-rows-[auto,auto] gap-y-7">
+        <div className="flex flex-col gap-y-7 sm:grid sm:grid-cols-[2fr,2fr] sm:grid-rows-[auto,auto]">
           <div className="flex flex-col gap-1">
             <span className="text-sm text-gray-500">Firstname</span>
             <span className="font-medium">{userData.firstname}</span>

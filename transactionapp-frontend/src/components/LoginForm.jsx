@@ -16,7 +16,7 @@ function LoginForm() {
   }
 
   return (
-    <main className="flex h-screen items-center justify-center bg-slate-50">
+    <main className="flex h-screen items-center justify-center bg-slate-50 px-3 lg:px-0">
       <div className="w-[30rem]">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign In to your account

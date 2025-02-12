@@ -58,7 +58,7 @@ function AddressForm({ data }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-[2fr,2fr] grid-rows-[auto,auto] gap-x-7 gap-y-7">
+      <div className="gap-y-7 md:grid md:grid-cols-[2fr,2fr] md:grid-rows-[auto,auto] md:gap-x-7">
         <div className="flex flex-col gap-3">
           <label
             htmlFor="street"
