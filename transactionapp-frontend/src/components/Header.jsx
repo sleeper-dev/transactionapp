@@ -108,7 +108,7 @@ function Header() {
               className="relative flex items-center text-2xl text-green-100 hover:text-white"
             >
               {countUnreadNotifications() > 0 && (
-                <span class="absolute -right-3 -top-3 rounded-full bg-red-500 p-1 text-xs font-medium text-red-100">
+                <span className="absolute -right-3 -top-3 rounded-full bg-red-500 p-1 text-xs font-medium text-red-100">
                   {countUnreadNotifications()}
                 </span>
               )}
@@ -116,7 +116,7 @@ function Header() {
               {isOpen ? <IoNotifications /> : <IoMdNotificationsOutline />}
             </button>
             {isOpen && (
-              <div className="absolute right-0 z-10 mt-2 max-h-[35rem] w-[25rem] overflow-hidden overflow-y-scroll rounded-xl border border-gray-300 bg-white shadow-lg [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:w-2">
+              <div className="absolute right-0 z-10 mt-2 max-h-[35rem] w-[80vw] overflow-hidden overflow-y-scroll rounded-xl border border-gray-300 bg-white shadow-lg sm:w-[70vw] sm:max-w-[70vw] md:max-h-[45rem] md:w-[25rem] lg:w-[30rem] xl:w-[35rem] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:w-2">
                 <div className="flex items-center justify-between border-b border-gray-200 p-4 shadow-md">
                   <h1 className="font-semibold text-zinc-800">Notifications</h1>
                   {notifications?.length > 0 && (
@@ -129,7 +129,7 @@ function Header() {
                   )}
                 </div>
                 {notifications?.length > 0 ? (
-                  <ul className="">
+                  <ul>
                     {notifications.map((notif) => (
                       <li
                         key={notif.id}

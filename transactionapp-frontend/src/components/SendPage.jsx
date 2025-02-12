@@ -111,7 +111,7 @@ function SendPage() {
         </button>
 
         <Modal.Window name="confirmModal">
-          <div className="flex w-[30rem] flex-col">
+          <div className="flex w-full flex-col md:w-[30rem]">
             <div className="border-b border-gray-300 pb-3">
               <h3 className="mb-2 text-lg font-bold">Are you sure?</h3>
               <p className="text-base font-medium text-zinc-500">

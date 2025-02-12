@@ -79,8 +79,8 @@ function TransactionSinglePage() {
       >
         {"<"} Go back
       </button>
-      <div className="mb-5 flex flex-row items-center justify-between">
-        <h1 className="text-2xl font-bold text-zinc-800">
+      <div className="mb-5 flex flex-col items-center justify-between md:flex-row">
+        <h1 className="text-xl font-bold text-zinc-800 md:text-2xl">
           Transaction Details{" "}
           <span className="text text-zinc-600 underline">#{id}</span>
         </h1>
@@ -91,26 +91,26 @@ function TransactionSinglePage() {
         </span>
       </div>
       <div className="rounded-lg bg-white p-5 shadow-md">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col">
+        <div className="flex flex-col items-center justify-between sm:flex-row">
+          <div className="mb-3 flex flex-col sm:mb-0">
             <span className="text-xl font-bold">
               {firstname} {lastname}
             </span>
             <span>{email}</span>
           </div>
-          <span className="font-medium">
+          <span className="font-medium text-gray-700">
             {format(new Date(dateCreated), "dd.MM.yyyy, hh:mm aa")}
           </span>
         </div>
         <div className="my-6 flex items-center justify-between border-y border-gray-200 py-5">
           <span
-            className={`text-4xl font-medium ${refunded ? "line-through" : ""}`}
+            className={`text-2xl font-medium sm:text-4xl ${refunded ? "line-through" : ""}`}
           >
             {isSender ? "-" : "+"}
             {amount.toFixed(2)} €
           </span>
           {refunded && (
-            <span className="rounded-full bg-amber-200 px-3 py-1 text-base font-medium uppercase text-amber-600">
+            <span className="rounded-full bg-amber-200 px-3 py-1 text-sm font-medium uppercase text-amber-600">
               Refunded
             </span>
           )}
@@ -130,7 +130,7 @@ function TransactionSinglePage() {
             </button>
 
             <Modal.Window name="confirmRefund">
-              <div className="flex w-[30rem] flex-col">
+              <div className="flex w-full flex-col md:w-[30rem]">
                 <div className="border-b border-gray-300 pb-3">
                   <h3 className="mb-2 text-lg font-bold">Are you sure?</h3>
                   <p className="text-base font-medium text-zinc-500">

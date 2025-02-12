@@ -67,11 +67,13 @@ function TransactionsPage() {
 
   return (
     <div>
-      <div className="mb-5 mt-5 flex w-full items-center justify-between">
-        <h1 className="text-2xl font-bold text-zinc-800">Your transactions</h1>
+      <div className="mb-5 mt-5 flex w-full flex-col items-center justify-between lg:flex-row">
+        <h1 className="mb-3 text-2xl font-bold text-zinc-800 lg:mb-0">
+          Your transactions
+        </h1>
 
         {transactions.length > 0 && (
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <TransactionFilter
               filter={filter}
               onFilterChange={handleFilterChange}
